@@ -22,7 +22,7 @@ define(function(require) {
     	console.log("openDb ..." + new Date());
     	var request = window.indexedDB.open(DB_NAME, DB_VERSION);
     	request.onerror = function(event) {
-    		alert("Why didn't you allow my web app to use IndexedDB?!\nDatabase error: " + event.target.errorCode);
+    		alert("Why didn't you allow my web app to use IndexedDB?!\nDatabase error: " + event.target.error.name);
     	};
     	request.onsuccess = function(event) {
     		db = request.result;
