@@ -14,7 +14,54 @@ define(function(require) {
 
     // Write your app here.
 
+    const DB_NAME = "MenuListDatabase";
+    const DB_VERSION = 13;
+    var db;
 
+    function openDB() {
+    	console.log("openDb ..." + new Date());
+    	var request = window.indexedDB.open(DB_NAME, DB_VERSION);
+    	request.onerror = function(event) {
+    		alert("Why didn't you allow my web app to use IndexedDB?!\nDatabase error: " + event.target.errorCode);
+    	};
+    	request.onsuccess = function(event) {
+    		db = request.result;
+    	};
+    	request.onupgradeneeded = function(event) {
+    		var db = event.target.result;
+    		db.deleteObjectStore(DB_NAME);
+    		var objectStore = db.createObjectStore(DB_NAME, { keyPath: "id" });
+    		objectStore.createIndex("jourIndex", "jour", { unique: false });
+    		alert('Upgrade complete');
+    	};
+
+    	
+	}
+
+    function store(id, day, meal, description) {
+    	var transaction = db.transaction(DB_NAME, "readwrite");
+    	transaction.oncomplete = function(event) {
+    		alert("All done!");
+    	};
+     
+    	transaction.onerror = function(event) {
+    		// FIXME : Don't forget to handle errors!
+    	};
+    	var objectStore = transaction.objectStore(DB_NAME);
+		var lunch = {
+			"id" : new Date(),
+			"jour" : day,
+			"plat" : meal,
+			"desc" : description
+		};
+		var request = objectStore.add(lunch);
+		request.onsuccess = function(event) {
+			console.log("on vient de stocker dans la DB: " + lunch.id);
+		};
+	}
+    
+    openDB();
+    	
     function formatDate(d) {
         return (d.getMonth()+1) + '/' +
             d.getDate() + '/' +
@@ -85,7 +132,7 @@ define(function(require) {
                        plat: plat.val(),
                        desc: desc.val() });
         }
-
+        store(el.id, jour.val(), plat.val(), desc.val());
         edit.close();
     });
 });
