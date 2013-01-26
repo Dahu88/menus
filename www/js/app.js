@@ -50,7 +50,7 @@ define(function(require) {
         item = item || { id: '', get: function() { return ''; } };
 
         $('input[name=id]', this).val(item.id);
-        $('input[name=jour]', this).val(item.get('jour'));
+        $('select[id=jour]', this).val(item.get('jour'));
         $('input[name=plat]', this).val(item.get('plat'));
         $('input[name=desc]', this).val(item.get('desc'));
     };
@@ -68,7 +68,7 @@ define(function(require) {
 
     $('button.add', edit).click(function() {
         var el = $(edit);
-        var jour = el.find('input[name=jour]');
+        var jour = el.find('select[id=jour]');
         var plat = el.find('input[name=plat]');
         var desc = el.find('input[name=desc]');
         var model = edit.model;

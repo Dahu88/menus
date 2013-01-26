@@ -37,8 +37,18 @@
 
     <x-view class="edit">
       <header><h1>Edit</h1></header>
-      <div class="field">Jour: <input type="text" name="jour" /></div>
-      <div class="field">Plat: <input type="text" name="plat" /></div>
+	  <div class="field">Jour: 
+		<select id="jour">
+			<option id="Lundi">Lundi</option>
+			<option id="Mardi">Mardi</option>
+			<option id="Mercredi">Mercredi</option>
+			<option id="Jeudi">Jeudi</option>
+			<option id="Vendredi">Vendredi</option>
+			<option id="Samedi">Samedi</option>
+			<option id="Dimanche">Dimanche</option>
+		</select>
+	  </div>
+	  <div class="field">Plat: <input type="text" name="plat" /></div>
       <div class="field">Description: <input type="text" name="desc" /></div>
       <button type="submit" class="add">Add</button>
     </x-view>
