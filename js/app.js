@@ -15,7 +15,7 @@ define(function(require) {
     // Write your app here.
 
     const DB_NAME = "MenuListDatabase";
-    const DB_VERSION = 14;
+    const DB_VERSION = 1;
     var db;
 
     function openDB() {
