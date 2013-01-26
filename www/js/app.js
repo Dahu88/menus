@@ -24,27 +24,23 @@ define(function(require) {
     // List view
 
     var list = $('.list').get(0);
-    list.add({ title: 'Learn this template',
-               desc: 'This is a list-detail template. Learn more ' +
-                     'about it at its ' +
-                     '<a href="https://github.com/mozilla/mortar-list-detail">project page!</a>',
-               date: new Date() });
-    list.add({ title: 'Make things',
-               desc: 'Make this look like that',
-               date: new Date(12, 9, 5) });
-    for(var i=0; i<8; i++) {
-        list.add({ title: 'Move stuff',
-                   desc: 'Move this over there',
-                   date: new Date(12, 10, 1) });
-    }
+    list.add({ title: 'Lundi: Cr&ecirc;pes',
+               jour: 'Lundi',
+               plat: 'Cr&ecirc;pes',
+               desc: 'Des bonnes cr&ecirc;pes au nutella' });
+    list.add({ title: 'Mardi: Soupe',
+               jour: 'Mardi',
+               plat: 'Soupe',
+               desc: 'Une soupe de l&eacute;gume maison' });
 
     // Detail view
 
     var detail = $('.detail').get(0);
     detail.render = function(item) {
-        $('.title', this).html(item.get('title'));
+        $('.title', this).html(item.get('jour'));
+        $('.jour', this).html(item.get('jour'));
+        $('.plat', this).html(item.get('plat'));
         $('.desc', this).html(item.get('desc'));
-        $('.date', this).text(formatDate(item.get('date')));
     };
 
     // Edit view
@@ -54,7 +50,8 @@ define(function(require) {
         item = item || { id: '', get: function() { return ''; } };
 
         $('input[name=id]', this).val(item.id);
-        $('input[name=title]', this).val(item.get('title'));
+        $('input[name=jour]', this).val(item.get('jour'));
+        $('input[name=plat]', this).val(item.get('plat'));
         $('input[name=desc]', this).val(item.get('desc'));
     };
 
@@ -62,7 +59,7 @@ define(function(require) {
         var model = this.view.model;
 
         if(model) {
-            return model.get('title');
+            return model.get('jour');
         }
         else {
             return 'New';
@@ -71,17 +68,22 @@ define(function(require) {
 
     $('button.add', edit).click(function() {
         var el = $(edit);
-        var title = el.find('input[name=title]');
+        var jour = el.find('input[name=jour]');
+        var plat = el.find('input[name=plat]');
         var desc = el.find('input[name=desc]');
         var model = edit.model;
 
         if(model) {
-            model.set({ title: title.val(), desc: desc.val() });
+            model.set({ title: jour.val() + ': ' + plat.val(),
+                        jour: jour.val(),
+                        plat: plat.val(),
+                        desc: desc.val() });
         }
         else {
-            list.add({ title: title.val(),
-                       desc: desc.val(),
-                       date: new Date() });
+            list.add({ title: jour.val() +': ' + plat.val(),
+                       jour: jour.val(),
+                       plat: plat.val(),
+                       desc: desc.val() });
         }
 
         edit.close();
