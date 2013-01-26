@@ -36,9 +36,9 @@ x-view.edit .field {
 x-listview.list li:before {
     content: ' ';
     display: inline-block;
-    width: 15px;
-    height: 15px;
-    background: url(../img/glyphicons-halflings.png) no-repeat -95px -2px;
+    width: 16px;
+    height: 16px;
+    background: url(../img/icons/mortar-16.png) no-repeat ;
     margin-right: 5px;
     vertical-align: middle;
 }
