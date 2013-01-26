@@ -1,4 +1,4 @@
 menus
 =====
 
-Gestion du menu de la semaine
+Gestion des menus de la semaine
