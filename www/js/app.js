@@ -15,7 +15,7 @@ define(function(require) {
     // Write your app here.
 
     const DB_NAME = "MenuListDatabase";
-    const DB_VERSION = 13;
+    const DB_VERSION = 14;
     var db;
 
     function openDB() {
@@ -26,9 +26,23 @@ define(function(require) {
     	};
     	request.onsuccess = function(event) {
     		db = request.result;
+    	    var objectStore = db.transaction(DB_NAME).objectStore(DB_NAME);
+    	    var list = $('.list').get(0);
+    	    objectStore.openCursor().onsuccess = function(event) {
+    	    	  var cursor = event.target.result;
+    	    	  if (cursor) {
+    	    	    list.add({ id: cursor.value.id,
+    	    	    	title: cursor.value.jour + ": " + cursor.value.plat,
+     	               	jour: cursor.value.jour,
+     	               	plat: cursor.value.plat,
+     	               	desc: cursor.value.desc });
+    	    	    cursor.continue();
+    	    	  }
+    	    	};
+    	    	
     	};
     	request.onupgradeneeded = function(event) {
-    		var db = event.target.result;
+    		db = event.target.result;
     		db.deleteObjectStore(DB_NAME);
     		var objectStore = db.createObjectStore(DB_NAME, { keyPath: "id" });
     		objectStore.createIndex("jourIndex", "jour", { unique: false });
@@ -41,7 +55,7 @@ define(function(require) {
     function store(id, day, meal, description) {
     	var transaction = db.transaction(DB_NAME, "readwrite");
     	transaction.oncomplete = function(event) {
-    		alert("All done!");
+//    		alert("All done!");
     	};
      
     	transaction.onerror = function(event) {
@@ -49,12 +63,12 @@ define(function(require) {
     	};
     	var objectStore = transaction.objectStore(DB_NAME);
 		var lunch = {
-			"id" : new Date(),
+			"id" : id,
 			"jour" : day,
 			"plat" : meal,
 			"desc" : description
 		};
-		var request = objectStore.add(lunch);
+		var request = objectStore.put(lunch);
 		request.onsuccess = function(event) {
 			console.log("on vient de stocker dans la DB: " + lunch.id);
 		};
@@ -71,14 +85,6 @@ define(function(require) {
     // List view
 
     var list = $('.list').get(0);
-    list.add({ title: 'Lundi: Cr&ecirc;pes',
-               jour: 'Lundi',
-               plat: 'Cr&ecirc;pes',
-               desc: 'Des bonnes cr&ecirc;pes au nutella' });
-    list.add({ title: 'Mardi: Soupe',
-               jour: 'Mardi',
-               plat: 'Soupe',
-               desc: 'Une soupe de l&eacute;gume maison' });
 
     // Detail view
 
@@ -94,7 +100,7 @@ define(function(require) {
 
     var edit = $('.edit').get(0);
     edit.render = function(item) {
-        item = item || { id: '', get: function() { return ''; } };
+        item = item || { id: new Date(), get: function() { return ''; } };
 
         $('input[name=id]', this).val(item.id);
         $('select[id=jour]', this).val(item.get('jour'));
@@ -115,24 +121,27 @@ define(function(require) {
 
     $('button.add', edit).click(function() {
         var el = $(edit);
+        var id = el.find('input[name=id]');
         var jour = el.find('select[id=jour]');
         var plat = el.find('input[name=plat]');
         var desc = el.find('input[name=desc]');
         var model = edit.model;
 
         if(model) {
-            model.set({ title: jour.val() + ': ' + plat.val(),
+            model.set({ id: id.val(),
+            			title: jour.val() + ': ' + plat.val(),
                         jour: jour.val(),
                         plat: plat.val(),
                         desc: desc.val() });
         }
         else {
-            list.add({ title: jour.val() +': ' + plat.val(),
+            list.add({ id: id.val(),
+            		   title: jour.val() +': ' + plat.val(),
                        jour: jour.val(),
                        plat: plat.val(),
                        desc: desc.val() });
         }
-        store(el.id, jour.val(), plat.val(), desc.val());
+        store(id.val(), jour.val(), plat.val(), desc.val());
         edit.close();
     });
 });
