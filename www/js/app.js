@@ -43,7 +43,6 @@ define(function(require) {
     	};
     	request.onupgradeneeded = function(event) {
     		db = event.target.result;
-    		db.deleteObjectStore(DB_NAME);
     		var objectStore = db.createObjectStore(DB_NAME, { keyPath: "id" });
     		objectStore.createIndex("jourIndex", "jour", { unique: false });
     		alert('Upgrade complete');
@@ -55,7 +54,7 @@ define(function(require) {
     function store(id, day, meal, description) {
     	var transaction = db.transaction(DB_NAME, "readwrite");
     	transaction.oncomplete = function(event) {
-//    		alert("All done!");
+    		console.log("Object stored: " + day + ": " + meal);
     	};
      
     	transaction.onerror = function(event) {
