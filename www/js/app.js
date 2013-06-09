@@ -151,7 +151,7 @@ define(function(require) {
                        plat: platH,
                        desc: desc.val() });
         }
-        store(id.val(), jour.val(), plat.val(), desc.val());
+        store(id.val(), jour.val(), platH, desc.val());
         edit.close();
     });
 });
