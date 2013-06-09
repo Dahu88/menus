@@ -28,6 +28,7 @@
     <x-view class="detail">
       <header>
         <h1 class='jour'>Details</h1>
+        <button data-view="x-view.confirmDelete">-</button>
         <button data-view="x-view.edit">Edit</button>
       </header>
 
@@ -53,6 +54,13 @@
       <div class="field">Description: <input type="text" name="desc" /></div>
       <input type="hidden" name="id" />
       <button type="submit" class="add">Add</button>
+    </x-view>
+
+    <x-view class="confirmDelete">
+      <header><h1>Supprime</h1></header>
+      <p>Voulez-vous vraiment supprimer <span class="plat"></span> du <span class="jour"></span> ?</p>
+      <input type="hidden" name="id" />
+      <button type="submit" class="delete">Supprimer</button>
     </x-view>
 
     <div class="loading">Loading...</div>
