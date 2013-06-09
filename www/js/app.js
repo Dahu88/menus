@@ -81,7 +81,8 @@ define(function(require) {
             d.getFullYear();
     }
 
-    function searchHistoric(meal) {
+    function searchHistoric() {
+	meal = this.val();
 	console.log("recherche dans l'historique pour " + meal);
 	return meal + " nada";	
     }
@@ -114,7 +115,7 @@ define(function(require) {
         $('select[id=jour]', this).val(item.get('jour'));
         $('input[name=plat]', this).val(item.get('plat'));
     	//$('input[name=plat]', this).addEventListener("compositionupdate", helloWorld());
-    	$('input[name=plat]', this).addEventListener("compositionupdate", searchHistoric(item.get('plat')));
+    	$('input[name=plat]', this).addEventListener("compositionupdate", searchHistoric());
 	$('input[name=desc]', this).val(item.get('desc'));
     };
 
@@ -139,23 +140,26 @@ define(function(require) {
 
 	// recherche dans l'historique
 	//var platH = app.searchHistoric(plat.val);
-	var platH = searchHistoric(plat.val());
+	//var platH = searchHistoric(plat.val());
 
         if(model) {
             model.set({ id: id.val(),
             			title: jour.val() + ': ' + platH,
                         jour: jour.val(),
-                        plat: platH,
+                        //plat: platH,
+                        plat: plat.val(),
                         desc: desc.val() });
         }
         else {
             list.add({ id: id.val(),
             		   title: jour.val() +': ' + platH,
                        jour: jour.val(),
-                       plat: platH,
+                       //plat: platH,
+                       plat: plat.val(),
                        desc: desc.val() });
         }
-        store(id.val(), jour.val(), platH, desc.val());
+        //store(id.val(), jour.val(), platH, desc.val());
+        store(id.val(), jour.val(), plat.val(), desc.val());
         edit.close();
     });
 });
