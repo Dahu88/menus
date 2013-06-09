@@ -82,7 +82,7 @@ define(function(require) {
     }
 
     function searchHistoric(event) {
-        meal = this.val();
+        meal = event.target.val();
 	console.log("recherche dans l'historique pour " + meal);
 	return meal + " nada";	
     }
