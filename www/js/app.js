@@ -131,24 +131,24 @@ define(function(require) {
         var desc = el.find('input[name=desc]');
         var model = edit.model;
 
+	// recherche dans l'historique
+	//var platH = app.searchHistoric(plat.val);
+	var platH = searchHistoric(plat.val());
+	if (platH == "")
+		platH = plat.val();
+
         if(model) {
-	    // recherche dans l'historique
-	    //var platH = app.searchHistoric(plat.val);
-	    var platH = searchHistoric(plat.val());
-	    //if (platH != "")
-		// plat.val = platH;
- 
             model.set({ id: id.val(),
-            			title: jour.val() + ': ' + plat.val(),
+            			title: jour.val() + ': ' + platH,
                         jour: jour.val(),
-                        plat: plat.val(),
+                        plat: platH,
                         desc: desc.val() });
         }
         else {
             list.add({ id: id.val(),
-            		   title: jour.val() +': ' + plat.val(),
+            		   title: jour.val() +': ' + platH,
                        jour: jour.val(),
-                       plat: plat.val(),
+                       plat: platH,
                        desc: desc.val() });
         }
         store(id.val(), jour.val(), plat.val(), desc.val());
