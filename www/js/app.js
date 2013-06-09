@@ -127,6 +127,11 @@ define(function(require) {
         var model = edit.model;
 
         if(model) {
+	    // recherche dans l'historique
+	    var platH = searchHistoric(plat.val);
+	    //if (platH != "")
+		plat.val = platH;
+ 
             model.set({ id: id.val(),
             			title: jour.val() + ': ' + plat.val(),
                         jour: jour.val(),
