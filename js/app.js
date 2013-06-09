@@ -41,7 +41,6 @@ define(function(require) {
     	    	    cursor.continue();
     	    	  }
     	    	};
-    	    	
     	};
     	request.onupgradeneeded = function(event) {
         	console.log("upgrade needed from " + event.oldVersion + " at " + new Date());
@@ -130,6 +129,32 @@ define(function(require) {
         return (d.getMonth()+1) + '/' +
             d.getDate() + '/' +
             d.getFullYear();
+    }
+
+    function searchHistoric(meal) {
+    	console.log("recherche dans l'historique pour " + meal);
+    	mealLowercase = meal.toLowerCase();
+    	var transaction = db.transaction(HISTORIC, 'readonly');
+    	var objectStore = transaction.objectStore(HISTORIC);
+    	var cursorRequest = objectStore.openCursor();
+    	cursorRequest.onsuccess = function (event){
+    	    objectStore.openCursor().onsuccess = function(event) {
+  	    	  var cursor = event.target.result;
+  	    	  if (cursor) {
+  	    		  if (cursor.value.meal.toLowerCase().substring(0, meal.length) === mealLowercase) {
+  	    			  console.log("On a trouve : " + cursor.value.meal + "(" + cursor.value.desc + ")");
+  	    			  return cursor.value;
+  	    		  }
+  	    	    cursor.continue();
+  	    	  }
+  	    	};
+        };
+
+    	console.log("On n'a pas trouve : " + meal);
+		return {
+				"meal" : meal,
+				"desc" : ""
+			};
     }
 
     // List view
