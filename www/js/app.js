@@ -81,8 +81,8 @@ define(function(require) {
             d.getFullYear();
     }
 
-    function searchHistoric(event) {
-        meal = event.target.val();
+    function searchHistoric(e) {
+        meal = e.target.val();
 	console.log("recherche dans l'historique pour " + meal);
 	return meal + " nada";	
     }
