@@ -108,7 +108,7 @@ define(function(require) {
 
         $('input[name=id]', this).val(item.id);
         $('select[id=jour]', this).val(item.get('jour'));
-        $('textbox[name=plat]', this).val(item.get('plat'));
+        $('input[name=plat]', this).val(item.get('plat'));
         $('input[name=desc]', this).val(item.get('desc'));
     };
 
@@ -127,7 +127,7 @@ define(function(require) {
         var el = $(edit);
         var id = el.find('input[name=id]');
         var jour = el.find('select[id=jour]');
-        var plat = el.find('textbox[name=plat]');
+        var plat = el.find('input[name=plat]');
         var desc = el.find('input[name=desc]');
         var model = edit.model;
 
