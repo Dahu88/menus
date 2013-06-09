@@ -101,8 +101,6 @@ define(function(require) {
     };
 
     // Edit view
-    var myTextBox = $('input[name=plat]', this);
-    myTextBox.addEventListener('compositionupdate', function(){alert('Hello world');}, false);
 
     var edit = $('.edit').get(0);
     edit.render = function(item) {
@@ -111,6 +109,8 @@ define(function(require) {
         $('input[name=id]', this).val(item.id);
         $('select[id=jour]', this).val(item.get('jour'));
         $('input[name=plat]', this).val(item.get('plat'));
+    	var myTextBox = $('input[name=plat]', this);
+    	myTextBox.addEventListener('compositionupdate', function(){alert('Hello world');}, false);
         $('input[name=desc]', this).val(item.get('desc'));
     };
 
