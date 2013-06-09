@@ -15,6 +15,7 @@ define(function(require) {
     // Write your app here.
 
     const DB_NAME = "MenuListDatabase";
+    const MENULIST = "MenuList";
     const HISTORIC = "Historic";
     const DB_VERSION = 15;
     var db;
@@ -27,7 +28,7 @@ define(function(require) {
     	};
     	request.onsuccess = function(event) {
     		db = request.result;
-    	    var objectStore = db.transaction(DB_NAME).objectStore(DB_NAME);
+    	    var objectStore = db.transaction(MENULIST).objectStore(MENULIST);
     	    var list = $('.list').get(0);
     	    objectStore.openCursor().onsuccess = function(event) {
     	    	  var cursor = event.target.result;
@@ -50,9 +51,9 @@ define(function(require) {
         		console.log(db.objectStoreNames[i]);
         	}
     		// Create First ObjectStore if needed
-    		if (!db.objectStoreNames.contains(DB_NAME)) {
-    			console.log("Creating " + DB_NAME + "ObjectStore.")
-				var objectStore = db.createObjectStore(DB_NAME, { keyPath: "id" });
+    		if (!db.objectStoreNames.contains(MENULIST)) {
+    			console.log("Creating " + MENULIST + " ObjectStore.")
+				var objectStore = db.createObjectStore(MENULIST, { keyPath: "id" });
 				objectStore.createIndex("jourIndex", "jour", { unique: false });
     		}
     		// Create Historic ObjectStore if needed
@@ -75,15 +76,15 @@ define(function(require) {
 	}
 
     function store(id, day, meal, description) {
-    	var transaction = db.transaction(DB_NAME, "readwrite");
+    	var transaction = db.transaction(MENULIST, "readwrite");
     	transaction.oncomplete = function(event) {
     		console.log("Object stored: " + day + ": " + meal);
     	};
      
     	transaction.onerror = function(event) {
-    		// FIXME : Don't forget to handle errors!
+    		console.error("Database error (meal store): " + event.target.error.name);
     	};
-    	var objectStore = transaction.objectStore(DB_NAME);
+    	var objectStore = transaction.objectStore(MENULIST);
 		var lunch = {
 			"id" : id,
 			"jour" : day,
@@ -92,7 +93,7 @@ define(function(require) {
 		};
 		var request = objectStore.put(lunch);
 		request.onsuccess = function(event) {
-			console.log("on vient de stocker dans la DB: " + lunch.id);
+			console.log("on vient de stocker dans la liste des menus: " + lunch.id);
 		};
 	}
     
