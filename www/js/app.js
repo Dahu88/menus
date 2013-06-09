@@ -135,9 +135,9 @@ define(function(require) {
         if(model) {
 	    // recherche dans l'historique
 	    //var platH = app.searchHistoric(plat.val);
-	    var platH = searchHistoric(plat.val);
+	    var platH = searchHistoric(plat.val());
 	    //if (platH != "")
-		plat.val = platH;
+		// plat.val = platH;
  
             model.set({ id: id.val(),
             			title: jour.val() + ': ' + plat.val(),
