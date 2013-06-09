@@ -82,7 +82,7 @@ define(function(require) {
     }
 
     function searchHistoric() {
-	meal = this.val();
+        meal = $('.plat', this).html(item.get('plat')).val();
 	console.log("recherche dans l'historique pour " + meal);
 	return meal + " nada";	
     }
@@ -138,27 +138,20 @@ define(function(require) {
         var desc = el.find('input[name=desc]');
         var model = edit.model;
 
-	// recherche dans l'historique
-	//var platH = app.searchHistoric(plat.val);
-	//var platH = searchHistoric(plat.val());
-
         if(model) {
             model.set({ id: id.val(),
-            			title: jour.val() + ': ' + platH,
+            			title: jour.val() + ': ' + plat.val(),
                         jour: jour.val(),
-                        //plat: platH,
                         plat: plat.val(),
                         desc: desc.val() });
         }
         else {
             list.add({ id: id.val(),
-            		   title: jour.val() +': ' + platH,
+            		   title: jour.val() +': ' + plat.val(),
                        jour: jour.val(),
-                       //plat: platH,
                        plat: plat.val(),
                        desc: desc.val() });
         }
-        //store(id.val(), jour.val(), platH, desc.val());
         store(id.val(), jour.val(), plat.val(), desc.val());
         edit.close();
     });
