@@ -15,7 +15,8 @@ define(function(require) {
     // Write your app here.
 
     const DB_NAME = "MenuListDatabase";
-    const DB_VERSION = 1;
+    const HISTORIC = "Historic";
+    const DB_VERSION = 15;
     var db;
 
     function openDB() {
@@ -42,12 +43,34 @@ define(function(require) {
     	    	
     	};
     	request.onupgradeneeded = function(event) {
+        	console.log("upgrade needed from " + event.oldVersion + " at " + new Date());
     		db = event.target.result;
-    		var objectStore = db.createObjectStore(DB_NAME, { keyPath: "id" });
-    		objectStore.createIndex("jourIndex", "jour", { unique: false });
+        	console.log("Existing objectStores:");
+        	for (var i=0; i<db.objectStoreNames.length; i++) {
+        		console.log(db.objectStoreNames[i]);
+        	}
+    		// Create First ObjectStore if needed
+    		if (!db.objectStoreNames.contains(DB_NAME)) {
+    			console.log("Creating " + DB_NAME + "ObjectStore.")
+				var objectStore = db.createObjectStore(DB_NAME, { keyPath: "id" });
+				objectStore.createIndex("jourIndex", "jour", { unique: false });
+    		}
+    		// Create Historic ObjectStore if needed
+    		if (!db.objectStoreNames.contains(HISTORIC)) {
+    			console.log("Creating " + HISTORIC + " ObjectStore.")
+	    		var historicObjectStore = db.createObjectStore(HISTORIC, {keyPath: "meal"});
+    		}
+        	console.log("Existing objectStores after upgrade:");
+        	for (var i=0; i<db.objectStoreNames.length; i++) {
+        		console.log(db.objectStoreNames[i]);
+        	}
     		alert('Upgrade complete');
     	};
-
+    	request.onblocked = function(event) {
+    		  // If some other tab is loaded with the database, then it needs to be closed
+    		  // before we can proceed.
+    		  alert("Please close all other tabs with this site open!");
+    	};
     	
 	}
 
@@ -73,6 +96,7 @@ define(function(require) {
 		};
 	}
     
+    console.log("Trying to open db ..." + new Date());
     openDB();
     	
     function formatDate(d) {
