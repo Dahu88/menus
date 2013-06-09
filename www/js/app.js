@@ -81,8 +81,8 @@ define(function(require) {
             d.getFullYear();
     }
 
-    function searchHistoric() {
-        meal = $('.plat', this).html(item.get('plat')).val();
+    function searchHistoric(event) {
+        meal = this.val();
 	console.log("recherche dans l'historique pour " + meal);
 	return meal + " nada";	
     }
@@ -101,10 +101,6 @@ define(function(require) {
         $('.desc', this).html(item.get('desc'));
     };
 
-    function helloWorld() {
-	alert("Hello World !!");
-    }
-
     // Edit view
 
     var edit = $('.edit').get(0);
@@ -114,8 +110,7 @@ define(function(require) {
         $('input[name=id]', this).val(item.id);
         $('select[id=jour]', this).val(item.get('jour'));
         $('input[name=plat]', this).val(item.get('plat'));
-    	//$('input[name=plat]', this).addEventListener("compositionupdate", helloWorld());
-    	$('input[name=plat]', this).addEventListener("compositionupdate", searchHistoric());
+    	$('input[name=plat]', this).addEventListener("compositionupdate", searchHistoric(), false);
 	$('input[name=desc]', this).val(item.get('desc'));
     };
 
