@@ -100,6 +100,10 @@ define(function(require) {
         $('.desc', this).html(item.get('desc'));
     };
 
+    function helloWorld() {
+	alert("Hello World !!");
+    }
+
     // Edit view
 
     var edit = $('.edit').get(0);
@@ -110,11 +114,13 @@ define(function(require) {
         $('select[id=jour]', this).val(item.get('jour'));
         $('input[name=plat]', this).val(item.get('plat'));
     	//$('input[name=plat]', this).addEventListener('compositionupdate', function(){alert('Hello world');}, false);
-	this.addEvent(function(){
-		document.getElementById('input[name=plat]'), 'compositionupdate', 
-		function(){
-			alert('Hello Dahuette');}
-	});        
+    	$('input[name=plat]', this).addEventListener("compositionupdate", helloWorld());
+//, false);
+	//this.addEvent(function(){
+	//	document.getElementById('input[name=plat]'), 'compositionupdate', 
+	//	function(){
+	//		alert('Hello Dahuette');}
+	//});        
 
 	$('input[name=desc]', this).val(item.get('desc'));
     };
