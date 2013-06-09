@@ -95,7 +95,23 @@ define(function(require) {
 			console.log("on vient de stocker dans la liste des menus: " + lunch.id);
 		};
 	}
-    
+
+    function remove(id) {
+    	console.log("On essaye de supprimer: " + id);
+    	var transaction = db.transaction(MENULIST, "readwrite");
+    	transaction.oncomplete = function(event) {
+    		console.log("Object deleted: " + id);
+    	};
+    	transaction.onerror = function(event) {
+    		console.error("Database error (meal delete): " + event.target.error.name);
+    	};
+    	var objectStore = transaction.objectStore(MENULIST);
+    	var request = objectStore.delete(id);
+		request.onsuccess = function(event) {
+			console.log("On vient de suprimer dans la liste des menus: " + id);
+		};
+    }
+
     function storeHistoric(meal, description) {
     	var transaction = db.transaction(HISTORIC, "readwrite");
     	transaction.oncomplete = function(event) {
@@ -219,5 +235,21 @@ define(function(require) {
         store(id.val(), jour.val(), plat.val(), desc.val());
         storeHistoric(plat.val(), desc.val());
         edit.close();
+    });
+
+    // Confirm Delete view
+    var confirmDelete = $('.confirmDelete').get(0);
+    confirmDelete.render = function(item) {
+        $('input[name=id]', this).val(item.id);
+        $('.jour', this).html(item.get('jour'));
+        $('.plat', this).html(item.get('plat'));
+    };
+    $('button.delete', confirmDelete).click(function() {
+        var el = $(confirmDelete);
+        var id = el.find('input[name=id]').val();
+        remove(id);
+        confirmDelete.close();
+        detail.close();
+        setTimeout(function() {document.location.reload(true)}, 500);
     });
 });
