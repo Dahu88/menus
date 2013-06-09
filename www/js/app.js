@@ -109,8 +109,10 @@ define(function(require) {
         $('input[name=id]', this).val(item.id);
         $('select[id=jour]', this).val(item.get('jour'));
         $('input[name=plat]', this).val(item.get('plat'));
-    	$('input[name=plat]', this).addEventListener('compositionupdate', function(){alert('Hello world');}, false);
-        $('input[name=desc]', this).val(item.get('desc'));
+    	//$('input[name=plat]', this).addEventListener('compositionupdate', function(){alert('Hello world');}, false);
+	this.addEvent(document.getElementById('input[name=plat]'), 'compositionupdate', function(){alert('Hello Dahuette');});        
+
+	$('input[name=desc]', this).val(item.get('desc'));
     };
 
     edit.getTitle = function() {
