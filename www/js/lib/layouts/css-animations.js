@@ -81,7 +81,7 @@
 		}
 		cssRule += "}";
 
-		this.original.insertRule(cssRule);
+		("appendRule" in this.original) ? this.original.appendRule(cssRule) : this.original.insertRule(cssRule);
 		this.initKeyframes();
 	};
 
