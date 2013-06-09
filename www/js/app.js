@@ -13,6 +13,7 @@ define(function(require) {
     require('layouts/layouts');
 
     // Write your app here.
+	var app = require('./js/bd.js');
 
     const DB_NAME = "MenuListDatabase";
     const DB_VERSION = 14;
@@ -81,6 +82,11 @@ define(function(require) {
             d.getFullYear();
     }
 
+    function searchHistoric(meal) {
+	console.log("recherche dans l'historique pour " + meal);
+	return "nada";	
+    }
+
     // List view
 
     var list = $('.list').get(0);
@@ -128,6 +134,7 @@ define(function(require) {
 
         if(model) {
 	    // recherche dans l'historique
+	    //var platH = app.searchHistoric(plat.val);
 	    var platH = searchHistoric(plat.val);
 	    //if (platH != "")
 		plat.val = platH;

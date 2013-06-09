@@ -73,6 +73,6 @@ define(function(require) {
     function searchHistoric(meal) {
 	console.log("recherche dans l'historique pour " + meal);
 
-	return "nada"; 
     }
+    return {searchHistoric:searchHistoric}; 
 });
