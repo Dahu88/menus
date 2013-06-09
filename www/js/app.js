@@ -101,6 +101,8 @@ define(function(require) {
     };
 
     // Edit view
+    var myTextBox = $('input[name=plat]', this);
+    myTextBox.addEventListener('compositionupdate', function(){alert('Hello world');}, false);
 
     var edit = $('.edit').get(0);
     edit.render = function(item) {
@@ -134,8 +136,6 @@ define(function(require) {
 	// recherche dans l'historique
 	//var platH = app.searchHistoric(plat.val);
 	var platH = searchHistoric(plat.val());
-	if (platH == "")
-		platH = plat.val();
 
         if(model) {
             model.set({ id: id.val(),
