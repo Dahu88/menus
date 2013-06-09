@@ -97,6 +97,32 @@ define(function(require) {
 		};
 	}
     
+    function storeHistoric(meal, description) {
+    	var transaction = db.transaction(HISTORIC, "readwrite");
+    	transaction.oncomplete = function(event) {
+    		console.log("Historic stored: " + meal);
+    	};
+
+    	transaction.onerror = function(event) {
+    		console.error("Database error (historic update): " + event.target.error.name);
+    	};
+    	for (var i=0; i<db.objectStoreNames.length; i++) {
+    		console.log(db.objectStoreNames[i]);
+    	}
+    	var objectStore = transaction.objectStore(HISTORIC);
+		var historic = {
+			"meal" : meal,
+			"desc" : description
+		};
+		console.log(objectStore.count);
+		var request = objectStore.put(historic);
+		console.log(objectStore.count);
+		request.onsuccess = function(event) {
+			console.log("On vient de stocker dans l'historique: " + historic.meal);
+		};
+
+    }
+
     console.log("Trying to open db ..." + new Date());
     openDB();
     	
@@ -166,6 +192,7 @@ define(function(require) {
                        desc: desc.val() });
         }
         store(id.val(), jour.val(), plat.val(), desc.val());
+        storeHistoric(plat.val(), desc.val());
         edit.close();
     });
 });
