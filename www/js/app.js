@@ -13,7 +13,6 @@ define(function(require) {
     require('layouts/layouts');
 
     // Write your app here.
-	var app = require('./js/bd.js');
 
     const DB_NAME = "MenuListDatabase";
     const DB_VERSION = 14;
